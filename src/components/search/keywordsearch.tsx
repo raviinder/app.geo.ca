@@ -46,7 +46,7 @@ const KeywordSearch = (): JSX.Element => {
     const [cpn, setPn] = useState(false);
     const [cnt, setCount] = useState(0);
     const [results, setResults] = useState<SearchResult[]>([]);
-    const [initKeyword, setKeyword] = useState(queryParams && queryParams.keyword ? queryParams.keyword.trim() : '');
+    const [initKeyword, setKeyword] = useState(queryParams && queryParams.keyword ? queryParams.keyword.trim().replaceAll('+', ' ') : '');
     // const store = useStore();
     const storeorgfilters = useSelector((state) => state.mappingReducer.orgfilter);
     const storetypefilters = useSelector((state) => state.mappingReducer.typefilter);
@@ -132,6 +132,7 @@ const KeywordSearch = (): JSX.Element => {
         }
 
         dispatch(setFilters({ orgfilter: ofilters, typefilter: tfilters, themefilter: thfilters, foundational: found }));
+
         // console.log(searchParams);
         axios.get(`${EnvGlobals.APP_API_DOMAIN_URL}${EnvGlobals.APP_API_ENDPOINTS.SEARCH}`, { params: searchParams })
             .then((response) =>  {
@@ -584,7 +585,7 @@ const KeywordSearch = (): JSX.Element => {
                                                     zoom={zoom}
                                                 >
                                                     <TileLayer
-                                                        url="https://geoappext.nrcan.gc.ca/arcgis/rest/services/BaseMaps/CBMT_CBCT_GEOM_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_CBCT_GEOM_3857/default/default028mm/{z}/{y}/{x}.jpg"
+                                                        url="https://maps-cartes.services.geo.ca/server2_serveur2/rest/services/BaseMaps/CBMT_CBCT_GEOM_3857/MapServer/WMTS/tile/1.0.0/BaseMaps_CBMT_CBCT_GEOM_3857/default/default028mm/{z}/{y}/{x}.jpg"
                                                         attribution={t('mapctrl.attribution')}
                                                     />
                                                     <NavBar />
